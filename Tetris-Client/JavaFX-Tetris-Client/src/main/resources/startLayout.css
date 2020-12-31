@@ -1,0 +1,17 @@
+.root {
+	-fx-background-image: url("backgound-black.jpg");
+	-fx-display:flex;
+	-fx-justify-content: center;
+	-fx-align-items: center;
+}
+.title{
+	 -fx-text-fill: yellow;
+}
+.chatbox{
+	-fx-border-color: green;
+	-fx-border-radius: 15;
+}
+.button{
+	-fx-border-radius: 10;
+	-fx-background-color: #B9D3EE;
+}

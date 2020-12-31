@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="510.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dung.gui.HomeGuiController">
+   <children>
+      <Label fx:id="username" layoutX="152.0" layoutY="27.0" prefHeight="18.0" styleClass="title">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="28.0" layoutY="20.0" onAction="#handeClickButtonBack" text="Back" textFill="#362f2f" />
+      <Pane layoutX="25.0" layoutY="61.0" prefHeight="452.0" prefWidth="360.0">
+         <children>
+            <Circle fx:id="createIcon" fill="#b4c4d3" layoutX="59.0" layoutY="73.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+            <Line endX="100.0" layoutX="197.0" layoutY="73.0" startX="-100.0" stroke="#e47f7f" strokeWidth="2.0" />
+            <Label layoutX="105.0" layoutY="43.0" text="HOST" textFill="#f8ecec">
+               <font>
+                  <Font size="17.0" />
+               </font></Label>
+            <Button layoutX="110.0" layoutY="95.0" onAction="#handeClickButtonCreateGame" text="Create Game" />
+            <Circle fx:id="publicIcon" fill="#b5c3d0" layoutX="59.0" layoutY="201.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+            <Line endX="100.0" layoutX="197.0" layoutY="201.0" startX="-100.0" stroke="#e87474" strokeWidth="2.0" />
+            <Label layoutX="100.0" layoutY="176.0" text="PUBLIC" textFill="#f8eded">
+               <font>
+                  <Font size="17.0" />
+               </font></Label>
+            <Button layoutX="110.0" layoutY="223.0" onAction="#handeClickButtonPublic" prefHeight="32.0" prefWidth="94.0" text="Find Game" />
+            <Circle fx:id="privateIcon" fill="#acb4bc" layoutX="59.0" layoutY="326.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+            <Line endX="100.0" layoutX="197.0" layoutY="326.0" startX="-100.0" stroke="#e88383" strokeWidth="2.0" />
+            <TextField fx:id="tokenRoom" layoutX="122.0" layoutY="370.0" prefHeight="26.0" prefWidth="69.0" />
+            <Button layoutX="203.0" layoutY="370.0" text="Join" onAction="#handeClickButtonPrivate"/>
+            <Label layoutX="100.0" layoutY="294.0" text="PRIVATE" textFill="#fcebeb">
+               <font>
+                  <Font size="17.0" />
+               </font></Label>
+         </children>
+      </Pane>
+   </children>
+	<stylesheets>
+		<URL value="@startLayout.css" />
+	</stylesheets>
+</AnchorPane>
