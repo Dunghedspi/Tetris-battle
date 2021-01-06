@@ -6,13 +6,14 @@ public class Room {
 	private final String roomID;
 	private int status;
 	private int master;
-
-	public Room(String roomId, String userNameClient1, String userNameClient2, int status, int master) {
+	private int isPublic;
+	public Room(String roomId, String userNameClient1, String userNameClient2, int status, int master, int isPublic) {
 		this.userNameClient1 = userNameClient1;
 		this.userNameClient2 = userNameClient2;
 		this.roomID = roomId;
 		this.status = status;
 		this.master = master;
+		this.isPublic = isPublic;
 	}
 
 	public String getRoomID() {
@@ -49,5 +50,13 @@ public class Room {
 
 	public void setMaster(int master) {
 		this.master = master;
+	}
+
+	public int getIsPublic() {
+		return isPublic;
+	}
+
+	public void setIsPublic(int isPublic) {
+		this.isPublic = isPublic;
 	}
 }

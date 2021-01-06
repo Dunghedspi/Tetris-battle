@@ -1,16 +1,14 @@
 package com.dung.gui;
 
-import com.google.common.eventbus.Subscribe;
 import com.dung.app.GameController;
 import com.dung.eventRequest.ExitRoomEvent;
 import com.dung.eventRequest.MessageEvent;
 import com.dung.eventRequest.StatusEvent;
-import com.dung.eventResponse.AnotherClientResponse;
-import com.dung.eventResponse.MessageResponseEvent;
-import com.dung.eventResponse.RoomUpdateResponseEvent;
-import com.dung.eventResponse.StatusResponseEvent;
+import com.dung.eventRequest.StatusRoomEvent;
+import com.dung.eventResponse.*;
 import com.dung.lib.EventBusCustom;
 import com.dung.logic.Room;
+import com.google.common.eventbus.Subscribe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,10 +116,12 @@ public class RoomGuiController extends EventBusCustom implements Initializable {
 		roomId.setText(room.getRoomID());
 		userNameClient1.setText(room.getUserNameClient1());
 		userNameClient2.setText(room.getUserNameClient2());
+		roomTypeButton.setText(room.getIsPublic() == 1 ? "Public" : "Private");
 		if (room.getMaster() == 1) {
 			startGameButton.setDisable(room.getStatus() == 0);
 		} else {
 			startGameButton.setText("Ready");
+			roomTypeButton.setDisable(true);
 		}
 	}
 
@@ -146,29 +146,52 @@ public class RoomGuiController extends EventBusCustom implements Initializable {
 			new GameController(c);
 		} else startGameButton.setDisable(!status.equals("Yes"));
 	}
-	
+
 	@Subscribe
-	public void recvMessage(MessageResponseEvent messageResponseEvent){
+	public void recvMessage(MessageResponseEvent messageResponseEvent) {
 		String mess = messageResponseEvent.getMess().trim();
 		System.out.println(mess);
 		Label newMess = new Label(mess);
 		newMess.setStyle("-fx-text-fill:yellow");
 		chatVBox.getChildren().add(newMess);
 	}
+
 	@Subscribe
-	public void setAnotherClient(AnotherClientResponse anotherClientResponse){
+	public void setAnotherClient(AnotherClientResponse anotherClientResponse) {
 		userNameClient2.setText(anotherClientResponse.getUsername());
+		room.setUserNameClient2(anotherClientResponse.getUsername());
 	}
+
 	@Subscribe
-	public void UpdateRoom(RoomUpdateResponseEvent roomUpdateResponseEvent){
-		this.setRoom(new Room(roomUpdateResponseEvent.getToken(),roomUpdateResponseEvent.getUsername1(), roomUpdateResponseEvent.getUsername2(),roomUpdateResponseEvent.getStatus(), roomUpdateResponseEvent.getMaster()));
+	public void UpdateRoom(RoomUpdateResponseEvent roomUpdateResponseEvent) {
+		this.setRoom(new Room(roomUpdateResponseEvent.getToken(), roomUpdateResponseEvent.getUsername1(), roomUpdateResponseEvent.getUsername2(), roomUpdateResponseEvent.getStatus(), roomUpdateResponseEvent.getMaster(), roomUpdateResponseEvent.getIsPublic()));
 		roomId.setText(room.getRoomID());
+		roomTypeButton.setText(room.getIsPublic() == 1 ? "Public" : "Private");
 		userNameClient1.setText(room.getUserNameClient1());
 		if (room.getMaster() == 1) {
 			startGameButton.setDisable(room.getStatus() == 0);
 			startGameButton.setText("Start");
+			roomTypeButton.setDisable(false);
 		} else {
 			startGameButton.setText("Ready");
+			roomTypeButton.setDisable(true);
 		}
+	}
+
+	public void handeClickStatusRoom() throws IOException {
+		String text = roomTypeButton.getText();
+		if (text.equals("Public")) {
+			postEvent(new StatusRoomEvent("Private"));
+			roomTypeButton.setText("Private");
+		} else {
+			postEvent(new StatusRoomEvent("Public"));
+			roomTypeButton.setText("Public");
+		}
+	}
+
+	@Subscribe
+	public void changeStatusRoom(StatusRoomResponse statusRoomResponse) {
+		room.setIsPublic(statusRoomResponse.getStatus().equals("Public") ? 1 : 0);
+		roomTypeButton.setText(statusRoomResponse.getStatus());
 	}
 }

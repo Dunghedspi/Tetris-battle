@@ -1,5 +1,7 @@
 package com.dung.utils;
 
+import com.dung.network.Response;
+
 import java.io.IOException;
 
 /**
@@ -17,7 +19,7 @@ public final class DefaultObjectTransmission implements ObjectTransmission {
     }
 
     public void sendObject(Object obj) throws IOException {
-        System.out.println(obj);
+        System.out.println("status: " + ((Response)obj).getStatus() + " data:" + ((Response)obj).getData());
         byteTransmission.sendBytes(objectAdapter.objectToBytes(obj));
     }
 

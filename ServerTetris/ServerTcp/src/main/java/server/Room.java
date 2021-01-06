@@ -7,6 +7,15 @@ public class Room {
     private Connection client1;
     private Connection client2;
     private GamePlay p;
+    private boolean isPublic;
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
 
     public GamePlay getP() {
         return p;
@@ -19,6 +28,7 @@ public class Room {
     public Room (Connection client1){
         this.client1 = client1;
         this.client2 = null;
+        this.isPublic = false;
     }
 
     public String getUsername1() {
