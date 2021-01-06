@@ -7,7 +7,7 @@ public enum StatusResponse {
     //join room
     ROOM, NOT_FOUND, JOIN_ROOM, UPDATE_ROOM,
     //status room
-    PUBLIC, PRIVATE,
+    STATUS_ROOM,
     //status client
     START, READY, REFUSE,
     //mess
@@ -19,5 +19,7 @@ public enum StatusResponse {
     //Result
     LOST, WIN,
     //quit
-    QUIT
+    QUIT,
+    //check connect
+    CONNECTED,
 }

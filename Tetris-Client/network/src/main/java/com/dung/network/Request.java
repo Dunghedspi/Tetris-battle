@@ -4,19 +4,19 @@ import java.io.Serializable;
 
 public class Request implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String type;
+    private CodeRequest type;
     private String data;
 
-    public Request(String type, String data) {
+    public Request(CodeRequest type, String data) {
         this.type = type;
         this.data = data;
     }
 
-    public String getType() {
+    public CodeRequest getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(CodeRequest type) {
         this.type = type;
     }
 

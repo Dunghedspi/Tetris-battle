@@ -1,24 +1,22 @@
 package com.dung.network;
 
-public enum StatusResponse {
+public enum CodeRequest {
     //login
-    OK, FAIL,
+    USER,
     //join room
-    ROOM, NOT_FOUND, JOIN_ROOM, UPDATE_ROOM,
+    TYPE,
+    //exit room
+    EXIT,
     //status room
     STATUS_ROOM,
     //status client
-    START, READY, REFUSE,
+    STATUS,
     //mess
     MESS,
     //row
     ROWS,
-    //list brisk
-    LIST,
     //Result
     LOST, WIN,
     //quit
     QUIT,
-    //check connect
-    CONNECTED,
 }

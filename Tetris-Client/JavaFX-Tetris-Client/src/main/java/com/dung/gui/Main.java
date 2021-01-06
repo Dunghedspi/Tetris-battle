@@ -6,31 +6,39 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Main extends Application {
-	static ClientTcp clientSocket;
+	private ClientTcp clientSocket;
 
 	public static void main(String[] args) {
 		launch(args);
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				clientSocket.interrupt();
-			}
-		});
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		//start socket
-		clientSocket = new ClientTcp();
-		clientSocket.start();
-		
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					clientSocket = new ClientTcp();
+				} catch (Exception e) {
+					Platform.runLater(() -> connectError());
+				}
+			}
+		};
+		Thread newThread = new Thread(runnable);
+		newThread.setDaemon(true);
+		newThread.start();
+
 		URL location = getClass().getClassLoader().getResource("startLayout.fxml");
 		ResourceBundle resources = null;
 		FXMLLoader fxmlLoader = new FXMLLoader(location, resources);
@@ -39,14 +47,21 @@ public class Main extends Application {
 		Scene scene = new Scene(root, 410, 510);
 		primaryStage.setScene(scene);
 		primaryStage.setOnCloseRequest(e -> {
-			try {
-				clientSocket.close();
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-			}
-			clientSocket.interrupt();
 			Platform.exit();
 		});
 		primaryStage.show();
+	}
+
+	public void connectError() {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setContentText("Sorry!Could not connect to the server!");
+		ButtonType buttonType = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+		alert.getButtonTypes().setAll(buttonType);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonType) {
+			Platform.exit();
+		}
+		alert.show();
 	}
 }

@@ -1,5 +1,6 @@
 package com.dung.gui;
 
+import com.dung.eventResponse.RoomNotFoundResponseEvent;
 import com.google.common.eventbus.Subscribe;
 import com.dung.eventRequest.RoomTypeEvent;
 import com.dung.eventResponse.RoomResponseEvent;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -107,8 +109,15 @@ public class HomeGuiController extends EventBusCustom implements Initializable {
 		Parent root = fxmlLoader.load();
 		RoomGuiController c = fxmlLoader.getController();
 		Scene scene = new Scene(root, 410, 510);
-		c.setRoom(new Room(roomResponseEvent.getToken(),roomResponseEvent.getUsername1(), roomResponseEvent.getUsername2(),roomResponseEvent.getStatus(), roomResponseEvent.getMaster() ));
+		c.setRoom(new Room(roomResponseEvent.getToken(),roomResponseEvent.getUsername1(), roomResponseEvent.getUsername2(),roomResponseEvent.getStatus(), roomResponseEvent.getMaster(), roomResponseEvent.getIsPublic()));
 		detach(this);
 		primaryStage.setScene(scene);
+	}
+	@Subscribe
+	public void RoomNotFound(RoomNotFoundResponseEvent roomNotFoundResponseEvent){
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setContentText("Sorry!Can't find the room!");
+		alert.show();
 	}
 }

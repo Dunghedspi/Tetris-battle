@@ -1,16 +1,13 @@
 package com.dung.socket;
 
 import com.dung.eventRequest.ListBricks;
-import com.dung.eventRequest.LoginEvent;
 import com.dung.eventResponse.*;
 import com.dung.lib.EventBusCustom;
-import com.dung.network.Request;
 import com.dung.network.Response;
 import com.dung.network.StatusResponse;
 import com.dung.utils.DefaultObjectTransmission;
 import com.dung.utils.SerializableObjectAdapter;
 import com.dung.utils.SocketByteTransmission;
-import com.google.common.eventbus.Subscribe;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -20,45 +17,43 @@ public class SocketListener extends EventBusCustom {
     Socket clientSocket;
     StatusResponse message;
     private final DefaultObjectTransmission transmission;
-    private SystemListener systemListener;
-    Thread serverListThread;
+    public boolean isExit;
 
-    public Thread getServerListThread() {
-        return serverListThread;
-    }
-
-    public SocketListener(Socket c) throws IOException {
+    public SocketListener(Socket c) throws IOException, InterruptedException {
         clientSocket = c;
+        isExit = false;
         attach(this);
         transmission = new DefaultObjectTransmission(new SerializableObjectAdapter(), new SocketByteTransmission(c));
         SystemListener systemListener = new SystemListener(transmission);
-        serverListThread = new Thread() {
-            @Override
-            public void run() {
+
+        Runnable runnable = () -> {
+            while (!isExit) {
                 try {
-                    do {
-                        Object receivedMessage = transmission.receiveObject();
-                        if (receivedMessage instanceof Response) {
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    handleResponse((Response) receivedMessage);
-                                }
-                            });
-                            message = ((Response) receivedMessage).getStatus();
-                        }
-                    } while (message != StatusResponse.QUIT);
-                } catch (Exception e) {
+                    Object receivedMessage = transmission.receiveObject();
+                    if (receivedMessage instanceof Response) {
+                        Platform.runLater(() -> handleResponse((Response) receivedMessage));
+                        message = ((Response) receivedMessage).getStatus();
+                    }
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         };
-        serverListThread.start();
+        Thread newThread = new Thread(runnable);
+        newThread.start();
     }
+
+    public boolean isExit() {
+        return isExit;
+    }
+
+    public void setExit(boolean exit) {
+        isExit = exit;
+    }
+
     public void close() throws IOException {
-        System.out.println(1);
         transmission.close();
-        serverListThread.interrupt();
+        isExit = true;
     }
 
     public void handleResponse(Response response) {
@@ -69,7 +64,7 @@ public class SocketListener extends EventBusCustom {
             }
             case ROOM: {
                 String[] roomInfo = response.getData().split(",");
-                postEvent(new RoomResponseEvent(roomInfo[1], roomInfo[2], roomInfo[0], Integer.parseInt(roomInfo[3]), Integer.parseInt(roomInfo[4])));
+                postEvent(new RoomResponseEvent(roomInfo[1], roomInfo[2], roomInfo[0], Integer.parseInt(roomInfo[3]), Integer.parseInt(roomInfo[4]), Integer.parseInt(roomInfo[5])));
                 break;
             }
             case MESS: {
@@ -98,15 +93,23 @@ public class SocketListener extends EventBusCustom {
             }
             case UPDATE_ROOM: {
                 String[] roomInfo = response.getData().split(",");
-                postEvent(new RoomUpdateResponseEvent(roomInfo[1], roomInfo[2], roomInfo[0], Integer.parseInt(roomInfo[3]), Integer.parseInt(roomInfo[4])));
+                postEvent(new RoomUpdateResponseEvent(roomInfo[1], roomInfo[2], roomInfo[0], Integer.parseInt(roomInfo[3]), Integer.parseInt(roomInfo[4]), Integer.parseInt(roomInfo[5])));
                 break;
             }
             case JOIN_ROOM: {
                 postEvent(new AnotherClientResponse(response.getData()));
                 break;
             }
+            case NOT_FOUND: {
+                postEvent(new RoomNotFoundResponseEvent());
+                break;
+            }
             case WIN: {
                 postEvent(new GameStatusResponse("win"));
+                break;
+            }
+            case STATUS_ROOM:{
+                postEvent(new StatusRoomResponse(response.getData()));
                 break;
             }
         }

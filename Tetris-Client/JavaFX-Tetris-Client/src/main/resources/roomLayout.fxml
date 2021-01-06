@@ -28,7 +28,7 @@
       <Label fx:id="userNameClient2" layoutX="164.0" layoutY="236.0" styleClass="title" />
       <Button fx:id="startGameButton" layoutX="176.0" layoutY="274.0" mnemonicParsing="false" onAction="#handeClickButtonStartGame" text="Start" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handeClickButtonBack" text="Back" />
-      <Button fx:id="roomTypeButton" layoutX="14.0" layoutY="274.0" mnemonicParsing="false" text="Private" />
+      <Button fx:id="roomTypeButton" layoutX="14.0" layoutY="274.0" mnemonicParsing="false" text="Public" onAction="#handeClickStatusRoom"/>
       <Label fx:id="roomId" layoutX="300.0" layoutY="19.0" text="12345" />
       <Label layoutX="254.0" layoutY="19.0" text="Room:" />
    </children>
