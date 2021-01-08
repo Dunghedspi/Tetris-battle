@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <AnchorPane prefHeight="510.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dung.gui.RoomGuiController">
    <children>
@@ -28,8 +23,8 @@
       <Label fx:id="userNameClient2" layoutX="164.0" layoutY="236.0" styleClass="title" />
       <Button fx:id="startGameButton" layoutX="176.0" layoutY="274.0" mnemonicParsing="false" onAction="#handeClickButtonStartGame" text="Start" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handeClickButtonBack" text="Back" />
-      <Button fx:id="roomTypeButton" layoutX="14.0" layoutY="274.0" mnemonicParsing="false" text="Public" onAction="#handeClickStatusRoom"/>
-      <Label fx:id="roomId" layoutX="300.0" layoutY="19.0" text="12345" />
+      <Button fx:id="roomTypeButton" layoutX="14.0" layoutY="274.0" mnemonicParsing="false" onAction="#handeClickStatusRoom" text="Public" />
+      <Label fx:id="roomId" layoutX="300.0" layoutY="19.0" textFill="#f2ebeb" />
       <Label layoutX="254.0" layoutY="19.0" text="Room:" />
    </children>
 	<stylesheets>
