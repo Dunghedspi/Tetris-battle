@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class Connection extends Thread {
     int id;
@@ -119,7 +120,7 @@ public class Connection extends Thread {
 
     public void createRoom() {
         room = new Room(this);
-        room.setToken("1234");
+        room.setToken(UUID.randomUUID().toString().substring(0, 5));
         ServerTCP.rooms.add(room);
     }
 
