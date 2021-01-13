@@ -46,6 +46,11 @@ public class SystemListener extends EventBusCustom {
     }
     @Subscribe
     public void sendStatusRoom(StatusRoomEvent statusRoomEvent) {sendRequest(CodeRequest.STATUS_ROOM, statusRoomEvent.getStatus());}
+    @Subscribe
+    public void exitGame(ExitGameEvent exitGameEvent){
+        System.out.println(1);
+        sendRequest(CodeRequest.QUIT, "");
+    }
     public void sendRequest(CodeRequest codeRequest, String mess) {
         try {
             transmission.sendObject(new Request(codeRequest, mess));

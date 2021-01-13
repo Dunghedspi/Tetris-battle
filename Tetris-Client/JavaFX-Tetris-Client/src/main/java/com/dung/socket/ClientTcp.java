@@ -12,4 +12,8 @@ public class ClientTcp {
         clientSocket = new Socket(serverAddress, 6788);
         socketListener = new SocketListener(clientSocket);
     }
+
+    public SocketListener getSocketListener() {
+        return socketListener;
+    }
 }

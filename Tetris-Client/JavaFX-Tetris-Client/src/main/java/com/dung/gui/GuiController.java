@@ -67,7 +67,6 @@ public class GuiController extends EventBusCustom implements Initializable {
     @FXML
     private GridPane brickPanel;
 
-
     @FXML
     private GameOverPanel gameOverPanel;
     @FXML

@@ -2,21 +2,22 @@ package com.dung.network;
 
 public enum CodeRequest {
     //login
-    USER,
+    USER, //0
     //join room
-    TYPE,
+    TYPE, //1
     //exit room
-    EXIT,
+    EXIT, //2
     //status room
-    STATUS_ROOM,
+    STATUS_ROOM, //3
     //status client
-    STATUS,
+    STATUS, //4
     //mess
-    MESS,
+    MESS, //5
     //row
-    ROWS,
+    ROWS, //6
     //Result
-    LOST, WIN,
+    LOST, //7
+    WIN, //8
     //quit
-    QUIT,
+    QUIT, //9
 }
