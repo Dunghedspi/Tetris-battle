@@ -1,5 +1,6 @@
 package com.dung.gui;
 
+import com.dung.eventRequest.ExitGameEvent;
 import com.dung.socket.ClientTcp;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -43,10 +44,11 @@ public class Main extends Application {
 		ResourceBundle resources = null;
 		FXMLLoader fxmlLoader = new FXMLLoader(location, resources);
 		Parent root = fxmlLoader.load();
-		primaryStage.setTitle("TetrisJFX");
+		primaryStage.setTitle("Tetris Battle");
 		Scene scene = new Scene(root, 410, 510);
 		primaryStage.setScene(scene);
 		primaryStage.setOnCloseRequest(e -> {
+			clientSocket.getSocketListener().postEvent(new ExitGameEvent());
 			Platform.exit();
 		});
 		primaryStage.show();

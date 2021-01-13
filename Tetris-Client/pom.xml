@@ -8,6 +8,21 @@
     <artifactId>Tetris-Client</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.dung</groupId>
+                <artifactId>JavaFX-Tetris-Client</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.dung.gui.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <modules>
         <module>network</module>
         <module>JavaFX-Tetris-Client</module>

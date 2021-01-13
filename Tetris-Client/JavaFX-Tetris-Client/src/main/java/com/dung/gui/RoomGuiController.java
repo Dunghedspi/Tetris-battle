@@ -183,9 +183,11 @@ public class RoomGuiController extends EventBusCustom implements Initializable {
 		if (text.equals("Public")) {
 			postEvent(new StatusRoomEvent("Private"));
 			roomTypeButton.setText("Private");
+			room.setIsPublic(0);
 		} else {
 			postEvent(new StatusRoomEvent("Public"));
 			roomTypeButton.setText("Public");
+			room.setIsPublic(1);
 		}
 	}
 

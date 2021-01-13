@@ -1,7 +1,6 @@
 package com.dung.network;
 
 public enum StatusResponse {
-  
     //login
     OK, FAIL,
     //join room
